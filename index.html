@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RRR-Map</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web|Oswald" rel="stylesheet">
+    <link href="css/c3.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/simplebar.css" />
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link href="css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <script src="js/d3.js"></script>
+    <script src="js/c3.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet-polygon.fillPattern.js"></script>
+    <script src="js/topojson.v1.min.js"></script>
+    <script src="js/chroma.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.sparkline.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/simplebar.min.js"></script>
+    <script src="spin/dist/spin.min.js" charset="utf-8"></script>
+    <script src="js/leaflet.spin.min.js" charset="utf-8"></script>
+    <script src="https://kit.fontawesome.com/bb32733e6d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="awesomeMarkers/leaflet.awesome-markers.css">
+    <script src="awesomeMarkers/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+</head>
+
+<body>
+    <main>
+        <div id="map" style="width: 100%; height: 1100px; display: block;"></div>        
+    </main>
+    <script>        
+
+        $().ready(function () {
+            var map = L.map('map').setView([39.870329036079696, -86.06291542449275], 18);
+            var marker1;
+            //Google Satellite map
+            /*
+            L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+                attribution: 'google',
+                minZoom: 12
+            }).addTo(map);*/
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                minZoom: 12,
+            }).addTo(map);
+            
+
+            var greenMarker = L.AwesomeMarkers.icon({
+                icon: 'fa-cogs',
+                markerColor: 'green'
+            });
+
+            var redMarker = L.AwesomeMarkers.icon({
+                icon: 'fa-cogs',
+                markerColor: 'red'
+            });
+            var mypop = L.popup();
+            var markerGroup = [];
+            var flag = 0;
+            map.on('click', onMapClick);
+            function onMapClick(e) {
+                var reg = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+                var dst = prompt("Please enter the range of the businesses (mile)", "");
+                if(!reg.test(dst))
+                {
+                    alert("Please enter a valid positive number");
+                    return;
+                }
+                var latlng_point = [e.latlng.lat, e.latlng.lng];
+                console.log("You clicked the map at latitude: " + e.latlng.lat + " and longitude: " + e.latlng.lng);
+                var lat = e.latlng.lat
+                var lng = e.latlng.lng
+                var markerArr = [];
+                 
+                if (marker1) 
+                    map.removeLayer(marker1);
+                
+                if (flag) 
+                    markerGroup.clearLayers();                       
+                
+                marker1 = L.marker([lat, lng], { icon: greenMarker }).addTo(map);                
+                var markerarray = [];
+                jQuery(function ($) {
+                    map.spin(true); 
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            lat: '' + lat,
+                            lng: '' + lng,
+                            dst: '' + dst
+                        },
+                        url: "http://127.0.0.1:8000/solve/",
+                        dataType: "json",
+                        success: function (result) {                  
+                            for(var i in result)
+                            {
+                                var name = "Name:  " + result[i].name + "<br>";
+                                var address = "Address:  " + result[i].address + "<br>";
+                                var city = "City:  " + result[i].city + "<br>";
+                                var state = "State:  " + result[i].state + "<br>";
+                                var postal_code= "Postal_code:  " + result[i].postal_code + "<br>";
+                                var stars = "Stars:  " + result[i].stars + "<br>";
+                                var review_count= "Review_count:  " + result[i].review_count + "<br>";
+                                var attributes= "Attributes:  " + result[i].attributes + "<br>";
+                                var categories= "Categories:  " + result[i].categories + "<br>";
+                                var lat1 = result[i].latitude;
+                                var lng1 = result[i].longitude;
+                                var content = name + address + city + state + postal_code + stars + review_count + categories + attributes;
+                                var marker2 = L.marker([lat1, lng1], { icon: redMarker });
+                                marker2.bindPopup(content);
+                                markerArr.push(marker2);
+                            }                                                       
+                            markerGroup = L.layerGroup(markerArr);
+                            map.spin(false);
+                            map.setZoom(12);
+                            markerGroup.addTo(map);
+                            flag = 1;
+                        },
+                        error: function (result) {
+                            //console.log(result)
+                            console.log(`Error：${reject(result)}`)
+                        }
+                    });
+                })
+            }
+        });
+
+    </script>
+</body>
+</html>
