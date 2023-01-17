@@ -1,7 +1,6 @@
 # Businesses-Recommendation-on-Maps-using-RRR
 
-## An interactive map that could provide a recommended subset of businesses given
-the starting point and the range by users.
+## An interactive map that could provide a recommended subset of businesses given the starting point and the range by users.
 
 ## Abstract
 Selecting ideal businesses from a wide range of choices is a burdensome task for all users. It is practically infeasible for them to go through all these businesses, 
@@ -20,6 +19,7 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 ## Running
+Explain how to run the automated tests for this system
 
 ##Built with
 
