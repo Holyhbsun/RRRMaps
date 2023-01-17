@@ -36,10 +36,12 @@ Then run the index.html as the front end.
 The default url for the backend is url: "http://127.0.0.1:8000/solve/". Changes should be made here if your defaul url for django is not http://127.0.0.1:8000/.
 
 ##Built with
+
 - [django](https://www.djangoproject.com/download/)
 - [leaflet](https://leafletjs.com/download.html)
 
 ##Authors
+
 - [Hongbin Sun](https://github.com/Holyhbsun)
 - [Abolfazl Asudeh](https://github.com/asudeh)
 
