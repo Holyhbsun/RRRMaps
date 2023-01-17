@@ -49,5 +49,6 @@ The default url for the backend is url: "http://127.0.0.1:8000/solve/". Changes 
 [1] Asudeh A, Nazi A, Zhang N, et al. RRR: Rank-regret representative[C]//Proceedings of the 2019 International Conference on Management of Data. 2019: 263-280.
 
 ## License
-This project is licensed under the MIT License — see the LICENSE.md file for details.
+This project is licensed under the MIT License — see the [LICENSE.md](LICENSE.md) file for details.
+<p align="center"><img width="50%" src="https://www.cs.uic.edu/~indexlab/imgs/InDeXLab2.gif"></p>
 
