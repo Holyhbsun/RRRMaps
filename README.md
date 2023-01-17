@@ -17,13 +17,31 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 What things you need to install the software and how to install them
+-[django](https://www.djangoproject.com/download/)
+
+### Installing(Console)
+```sh
+pip install Django==4.1.5
+```
 
 ## Running
 Explain how to run the automated tests for this system
 
+First you need cd to the path where this project is installed, then run the server with the following
+```sh
+python manage.py runserver
+```
+
+Then run the index.html as the front end.
+The default url for the backend is url: "http://127.0.0.1:8000/solve/". Changes should be made here if your defaul url for django is not http://127.0.0.1:8000/.
+
 ##Built with
+-[django](https://www.djangoproject.com/download/)
+-[leaflet](https://leafletjs.com/download.html)
 
 ##Authors
+-[Hongbin Sun](https://github.com/Holyhbsun)
+-[Abolfazl Asudeh](https://github.com/asudeh)
 
 ##Reference
 [1] Asudeh A, Nazi A, Zhang N, et al. RRR: Rank-regret representative[C]//Proceedings of the 2019 International Conference on Management of Data. 2019: 263-280.
