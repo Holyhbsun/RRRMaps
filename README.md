@@ -35,15 +35,15 @@ python manage.py runserver
 Then run the index.html as the front end.
 The default url for the backend is url: "http://127.0.0.1:8000/solve/". Changes should be made here if your defaul url for django is not http://127.0.0.1:8000/.
 
-##Built with
+## Built with
 
 - [django](https://www.djangoproject.com/download/)
 - [leaflet](https://leafletjs.com/download.html)
 
-##Authors
+## Authors
 
 - [Hongbin Sun](https://github.com/Holyhbsun)
 - [Abolfazl Asudeh](https://github.com/asudeh)
 
-##Reference
+## Reference
 [1] Asudeh A, Nazi A, Zhang N, et al. RRR: Rank-regret representative[C]//Proceedings of the 2019 International Conference on Management of Data. 2019: 263-280.
